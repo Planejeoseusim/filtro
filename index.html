@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Planeje o Seu Sim — Convites Digitais Interativos</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+  :root{
+    --creme:#FAF7F2;
+    --creme-2:#F3E9DE;
+    --branco:#FFFFFF;
+    --terra:#7A3020;
+    --terracota:#A65339;
+    --rose:#C98F80;
+    --marrom:#2C1A0E;
+    --texto:#2C1A0E;
+    --suave:#766052;
+    --bege:#D4B896;
+    --linha:rgba(212,184,150,.42);
+    --sombra:0 28px 90px rgba(44,26,14,.14);
+  }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:'Jost',sans-serif;
+    background:
+      radial-gradient(ellipse at 10% 8%, rgba(196,105,74,.10), transparent 35%),
+      radial-gradient(ellipse at 92% 74%, rgba(212,184,150,.22), transparent 45%),
+      var(--creme);
+    color:var(--texto);
+    line-height:1.65;
+    font-weight:300;
+    overflow-x:hidden;
+  }
+  img, video{ max-width:100%; display:block; }
+  a{ color:inherit; }
+  .container{ width:min(1120px, calc(100% - 36px)); margin-inline:auto; }
+
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    background:rgba(250,247,242,.88);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--linha);
+  }
+  .header-inner{
+    height:74px;
+    display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  }
+  .logo{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.25rem;
+    font-style:italic;
+    color:var(--terra);
+    letter-spacing:.03em;
+  }
+  .top-link{
+    text-decoration:none;
+    border:1px solid rgba(122,48,32,.32);
+    color:var(--terra);
+    border-radius:999px;
+    padding:.68rem 1rem;
+    font-size:.7rem;
+    font-weight:600;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    transition:.2s;
+  }
+  .top-link:hover{ background:var(--terra); color:white; }
+
+  .btn{
+    display:inline-flex; justify-content:center; align-items:center; gap:.55rem;
+    border-radius:999px;
+    padding:1rem 1.55rem;
+    text-decoration:none;
+    font-size:.72rem;
+    font-weight:600;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    transition:.22s;
+  }
+  .btn-primary{
+    color:white;
+    background:linear-gradient(135deg,var(--terra),var(--terracota));
+    box-shadow:0 18px 45px rgba(122,48,32,.22);
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 24px 55px rgba(122,48,32,.28); }
+  .btn-outline{
+    color:var(--terra);
+    border:1px solid rgba(122,48,32,.35);
+    background:rgba(255,255,255,.52);
+  }
+  .btn-outline:hover{ background:var(--terra); color:white; }
+
+  .hero{
+    min-height:100vh;
+    padding:8.5rem 0 5rem;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:3.4rem;
+    align-items:center;
+  }
+  .kicker{
+    display:flex; align-items:center; gap:1rem;
+    color:var(--bege);
+    font-size:.68rem;
+    font-weight:600;
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    margin-bottom:1.25rem;
+  }
+  .kicker::before{ content:""; width:46px; height:1px; background:var(--bege); }
+  h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(3.2rem,7.5vw,6.4rem);
+    line-height:.96;
+    font-weight:300;
+    color:var(--marrom);
+    letter-spacing:-.045em;
+    margin-bottom:1.35rem;
+  }
+  h1 em{ color:var(--terra); font-style:italic; }
+  .hero p{
+    max-width:560px;
+    color:var(--suave);
+    font-size:1.03rem;
+    margin-bottom:1.8rem;
+  }
+  .hero-actions{ display:flex; flex-wrap:wrap; gap:.85rem; margin:2rem 0 2.15rem; }
+  .trust-row{ display:flex; flex-wrap:wrap; gap:.72rem; }
+  .trust-pill{
+    background:rgba(255,255,255,.62);
+    border:1px solid var(--linha);
+    border-radius:999px;
+    padding:.55rem .85rem;
+    color:var(--suave);
+    font-size:.78rem;
+  }
+
+
+
+  .highlight-copy{
+    margin:1rem 0 1.35rem;
+    display:inline-flex;
+    flex-wrap:wrap;
+    gap:.55rem;
+    align-items:center;
+    max-width:680px;
+  }
+  .highlight-copy span{
+    background:rgba(255,255,255,.76);
+    border:1px solid var(--linha);
+    border-radius:999px;
+    padding:.52rem .82rem;
+    color:var(--terra);
+    font-size:.8rem;
+    font-weight:500;
+  }
+
+  .offer-inline{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.55rem;
+    align-items:center;
+    max-width:620px;
+    margin:0 0 1.15rem;
+  }
+  .offer-inline strong{
+    color:var(--terra);
+    font-weight:600;
+  }
+  .offer-inline span{
+    background:rgba(255,255,255,.72);
+    border:1px solid var(--linha);
+    color:var(--suave);
+    border-radius:999px;
+    padding:.48rem .76rem;
+    font-size:.78rem;
+  }
+  .offer-inline s{ color:rgba(118,96,82,.58); }
+  .hero-main,.hero-secondary,.preview img{
+    background:transparent !important;
+  }
+  .faq-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1rem;
+  }
+  .faq-item{
+    background:rgba(255,255,255,.74);
+    border:1px solid var(--linha);
+    border-radius:26px;
+    padding:1.35rem;
+    box-shadow:0 18px 55px rgba(44,26,14,.06);
+  }
+  .faq-item h4{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.35rem;
+    line-height:1.15;
+    color:var(--marrom);
+    margin-bottom:.55rem;
+    font-weight:500;
+  }
+  .faq-item p{
+    color:var(--suave);
+    font-size:.9rem;
+  }
+
+  .hero-visual{
+    position:relative;
+    min-height:620px;
+  }
+  .hero-main{
+    position:absolute;
+    right:3%;
+    top:0;
+    width:min(430px, 88%);
+    filter:drop-shadow(0 34px 80px rgba(44,26,14,.20));
+  }
+  .hero-secondary{
+    position:absolute;
+    left:0;
+    bottom:10px;
+    width:min(285px, 48%);
+    filter:drop-shadow(0 24px 60px rgba(44,26,14,.18));
+    transform:rotate(-4deg);
+  }
+  .promo-float{
+    position:absolute;
+    top:9%;
+    left:0;
+    width:210px;
+    background:rgba(255,255,255,.86);
+    border:1px solid var(--linha);
+    border-radius:24px;
+    padding:1rem;
+    box-shadow:0 18px 55px rgba(44,26,14,.10);
+  }
+  .promo-float strong{
+    font-family:'Cormorant Garamond',serif;
+    display:block;
+    color:var(--terra);
+    font-size:1.65rem;
+    line-height:1;
+    font-weight:500;
+  }
+  .promo-float span{ color:var(--suave); font-size:.8rem; }
+
+  .divider{ width:min(880px, calc(100% - 36px)); margin:auto; display:flex; align-items:center; gap:1.1rem; }
+  .divider::before,.divider::after{ content:""; flex:1; height:1px; background:var(--linha); }
+  .divider span{ color:var(--bege); font-family:'Cormorant Garamond',serif; font-size:1.25rem; font-style:italic; }
+
+  .section{ padding:5.8rem 0; }
+  .section-label{
+    text-align:center;
+    color:var(--bege);
+    font-size:.66rem;
+    font-weight:600;
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    margin-bottom:.8rem;
+  }
+  .section-title{
+    text-align:center;
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(2.35rem,5vw,3.8rem);
+    line-height:1.05;
+    font-weight:300;
+    color:var(--marrom);
+    max-width:820px;
+    margin:0 auto 1rem;
+  }
+  .section-title em{ color:var(--terra); font-style:italic; }
+  .section-sub{ max-width:650px; color:var(--suave); text-align:center; margin:0 auto 3.2rem; }
+
+  .convites-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1.35rem;
+  }
+  .card{
+    background:rgba(255,255,255,.86);
+    border:1px solid var(--linha);
+    border-radius:34px;
+    overflow:hidden;
+    box-shadow:0 24px 70px rgba(44,26,14,.08);
+    display:flex;
+    flex-direction:column;
+  }
+  .card.featured{ border-color:rgba(122,48,32,.56); box-shadow:0 30px 90px rgba(122,48,32,.13); }
+  .preview{
+    min-height:460px;
+    padding:1.2rem 1.2rem 0;
+    background:linear-gradient(180deg,#f7efe6,rgba(255,255,255,.38));
+    position:relative;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+  }
+  .preview img{
+    max-height:440px;
+    width:auto;
+    object-fit:contain;
+    filter:drop-shadow(0 22px 58px rgba(44,26,14,.16));
+  }
+  .badge{
+    position:absolute;
+    top:1.2rem;
+    left:1.2rem;
+    background:var(--terra);
+    color:white;
+    border-radius:999px;
+    padding:.48rem .78rem;
+    font-size:.62rem;
+    font-weight:600;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    z-index:2;
+  }
+  .badge.alt{ left:auto; right:1.2rem; background:rgba(255,255,255,.92); color:var(--terra); border:1px solid var(--linha); }
+  .card-body{ padding:2rem; display:flex; flex-direction:column; flex:1; }
+  .num{
+    color:var(--bege);
+    font-size:.7rem;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    font-weight:600;
+    margin-bottom:.48rem;
+  }
+  .card h3{
+    font-family:'Cormorant Garamond',serif;
+    font-size:2rem;
+    line-height:1.06;
+    color:var(--marrom);
+    font-weight:500;
+    margin-bottom:.7rem;
+  }
+  .desc{ color:var(--suave); font-size:.93rem; margin-bottom:1.2rem; }
+  .price{ display:flex; flex-wrap:wrap; gap:.75rem; align-items:flex-end; margin:1rem 0 1.2rem; }
+  .old{ color:rgba(118,96,82,.68); text-decoration:line-through; font-size:1.05rem; }
+  .new{
+    font-family:'Cormorant Garamond',serif;
+    font-size:3rem;
+    line-height:.9;
+    color:var(--terra);
+  }
+  .new small{ font-family:'Jost',sans-serif; font-size:.78rem; color:var(--suave); }
+  .economia{
+    width:max-content;
+    background:#f2dfd6;
+    color:var(--terra);
+    border-radius:999px;
+    padding:.35rem .72rem;
+    font-size:.72rem;
+    font-weight:600;
+    margin-bottom:1rem;
+  }
+  .list{ list-style:none; margin:1rem 0 1.8rem; }
+  .list li{
+    display:flex;
+    gap:.72rem;
+    align-items:flex-start;
+    padding:.62rem 0;
+    border-bottom:1px solid rgba(212,184,150,.22);
+    color:var(--suave);
+    font-size:.88rem;
+  }
+  .list li:last-child{ border-bottom:0; }
+  .check{
+    flex:0 0 20px;
+    width:20px; height:20px;
+    border-radius:50%;
+    background:rgba(122,48,32,.1);
+    color:var(--terra);
+    display:inline-flex;
+    align-items:center; justify-content:center;
+    font-size:.78rem;
+    margin-top:.1rem;
+  }
+  .card .btn{ margin-top:auto; }
+
+  .video-section{
+    display:grid;
+    grid-template-columns:.9fr 1.1fr;
+    gap:2rem;
+    align-items:center;
+    background:rgba(255,255,255,.78);
+    border:1px solid var(--linha);
+    border-radius:36px;
+    padding:2rem;
+    box-shadow:0 24px 75px rgba(44,26,14,.09);
+  }
+  .video-copy h3{
+    font-family:'Cormorant Garamond',serif;
+    font-size:2.7rem;
+    line-height:1.05;
+    font-weight:300;
+    color:var(--marrom);
+    margin-bottom:.8rem;
+  }
+  .video-copy h3 em{ color:var(--terra); font-style:italic; }
+  .video-copy p{ color:var(--suave); margin-bottom:1.2rem; }
+  .video-frame{
+    background:#111;
+    border-radius:34px;
+    padding:10px;
+    box-shadow:var(--sombra);
+    max-width:390px;
+    margin-left:auto;
+    overflow:hidden;
+  }
+  .video-frame video{
+    width:100%;
+    border-radius:25px;
+    aspect-ratio:9/16;
+    object-fit:cover;
+    background:#111;
+  }
+
+  .features{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1rem;
+    margin-top:2rem;
+  }
+  .feature{
+    background:rgba(255,255,255,.7);
+    border:1px solid var(--linha);
+    border-radius:24px;
+    padding:1.3rem;
+    text-align:center;
+  }
+  .feature strong{
+    display:block;
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.3rem;
+    color:var(--marrom);
+  }
+  .feature span{ color:var(--suave); font-size:.8rem; }
+
+  .compare{
+    overflow:hidden;
+    border:1px solid var(--linha);
+    border-radius:30px;
+    background:rgba(255,255,255,.84);
+    box-shadow:0 22px 70px rgba(44,26,14,.08);
+  }
+  table{ width:100%; border-collapse:collapse; }
+  th{
+    background:var(--creme-2);
+    color:var(--marrom);
+    padding:1.15rem 1rem;
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.25rem;
+    font-weight:500;
+    text-align:center;
+  }
+  th:first-child{
+    text-align:left;
+    font-family:'Jost',sans-serif;
+    font-size:.66rem;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--bege);
+  }
+  td{
+    padding:.9rem 1rem;
+    border-bottom:1px solid rgba(212,184,150,.18);
+    color:var(--suave);
+    text-align:center;
+    font-size:.88rem;
+  }
+  td:first-child{ text-align:left; color:var(--texto); font-weight:500; }
+  tr:last-child td{ border-bottom:0; }
+  .yes{ color:var(--terra); font-weight:700; }
+  .no{ color:rgba(118,96,82,.35); }
+  .comp-price{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.55rem;
+    color:var(--terra);
+  }
+  .price-row td{ background:rgba(250,247,242,.8); }
+
+  .steps{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1rem;
+  }
+  .step{
+    text-align:center;
+    background:rgba(255,255,255,.65);
+    border:1px solid var(--linha);
+    border-radius:28px;
+    padding:2rem 1.4rem;
+  }
+  .step-num{ font-family:'Cormorant Garamond',serif; font-size:3.1rem; color:var(--creme-2); line-height:1; }
+  .step h4{ font-family:'Cormorant Garamond',serif; font-size:1.35rem; color:var(--marrom); margin:.3rem 0; }
+  .step p{ color:var(--suave); font-size:.85rem; }
+
+  .cta{
+    margin-top:2rem;
+    background:linear-gradient(135deg,var(--marrom),#462516);
+    color:var(--creme);
+    text-align:center;
+    padding:6.4rem 0;
+    position:relative;
+    overflow:hidden;
+  }
+  .cta::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse at 20% 40%,rgba(196,105,74,.26),transparent 55%),
+      radial-gradient(ellipse at 78% 18%,rgba(212,184,150,.14),transparent 48%);
+  }
+  .cta .container{ position:relative; }
+  .cta h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(2.5rem,6vw,4.4rem);
+    line-height:1.05;
+    font-weight:300;
+    margin-bottom:1rem;
+  }
+  .cta h2 em{ color:var(--terra-light); font-style:italic; }
+  .cta p{ color:rgba(250,247,242,.72); margin:0 auto 2rem; max-width:570px; }
+
+  footer{
+    background:var(--marrom);
+    border-top:1px solid rgba(212,184,150,.14);
+    text-align:center;
+    padding:2rem;
+  }
+  footer span{
+    display:block;
+    color:rgba(212,184,150,.72);
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    margin-bottom:.35rem;
+  }
+  footer p{ color:rgba(212,184,150,.42); font-size:.72rem; letter-spacing:.08em; }
+
+  .fade-up{ opacity:0; transform:translateY(28px); transition:opacity .75s ease, transform .75s ease; }
+  .fade-up.visible{ opacity:1; transform:translateY(0); }
+
+  @media(max-width:920px){
+    .hero{ grid-template-columns:1fr; text-align:center; }
+    .kicker{ justify-content:center; }
+    .kicker::after{ content:""; width:46px; height:1px; background:var(--bege); }
+    .hero p{ margin-inline:auto; }
+  
+  .highlight-copy{
+    margin:1rem 0 1.35rem;
+    display:inline-flex;
+    flex-wrap:wrap;
+    gap:.55rem;
+    align-items:center;
+    max-width:680px;
+  }
+  .highlight-copy span{
+    background:rgba(255,255,255,.76);
+    border:1px solid var(--linha);
+    border-radius:999px;
+    padding:.52rem .82rem;
+    color:var(--terra);
+    font-size:.8rem;
+    font-weight:500;
+  }
+
+  .offer-inline{ justify-content:center; margin-inline:auto; }
+    .hero-actions,.trust-row{ justify-content:center; }
+    .hero-visual{ min-height:560px; }
+    .hero-main{ right:4%; width:min(390px,70%); }
+    .hero-secondary{ left:6%; width:min(255px,45%); }
+    .promo-float{ display:none; }
+    .convites-grid,.video-section{ grid-template-columns:1fr; }
+    .video-frame{ margin-inline:auto; }
+    .features{ grid-template-columns:1fr 1fr; }
+  }
+  @media(max-width:680px){
+    .container{ width:min(100% - 26px,1120px); }
+    .header-inner{ height:64px; }
+    .logo{ font-size:1rem; }
+    .top-link{ font-size:.6rem; padding:.55rem .7rem; }
+    .hero{ padding-top:7rem; }
+    .hero-visual{ min-height:500px; }
+    .hero-main{ width:290px; right:-18px; top:0; }
+    .hero-secondary{ width:200px; left:-8px; bottom:24px; }
+    .section{ padding:4.2rem 0; }
+    .preview{ min-height:390px; }
+    .preview img{ max-height:365px; }
+    .features,.steps,.faq-grid{ grid-template-columns:1fr; }
+    th,td{ padding:.75rem .52rem; font-size:.76rem; }
+    th{ font-size:1rem; }
+    .new{ font-size:2.6rem; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="container header-inner">
+    <span class="logo">planeje o seu sim</span>
+    <a href="https://wa.me/5500000000000" class="top-link">Chamar no WhatsApp</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero container">
+    <div class="fade-up">
+      <div class="kicker">convites digitais de casamento</div>
+      <h1>O convite que já começa a <em>emocionar</em></h1>
+      <p>Convites digitais interativos, personalizados com a identidade do casal e prontos para compartilhar pelo WhatsApp.</p>
+      <div class="hero-actions">
+        <a href="#modelos" class="btn btn-primary">Ver modelos e preços</a>
+        <a href="#video" class="btn btn-outline">Ver convite em vídeo</a>
+      </div>
+      <div class="offer-inline">
+        <strong>Oferta especial:</strong>
+        <span>Convite Interativo de <s>R$ 149,00</s> por R$ 97</span>
+        <span>Estendido de <s>R$ 210,00</s> por R$ 147</span>
+      </div>
+
+      <div class="highlight-copy">
+        <span>Personalizamos no estilo do seu casamento</span>
+        <span>Entre em contato e saiba mais</span>
+      </div>
+      <div class="trust-row">
+        <span class="trust-pill">PDF interativo</span>
+        <span class="trust-pill">Personalizado</span>
+        <span class="trust-pill">Entrega digital</span>
+      </div>
+    </div>
+
+    <div class="hero-visual fade-up">
+<img class="hero-main" src="assets/convite-estendido-mockup-sem-fundo.png" alt="Mockup do convite estendido interativo">
+      <img class="hero-secondary" src="assets/convite-interativo-mockup-sem-fundo.png" alt="Mockup do convite interativo">
+    </div>
+  </section>
+
+  <div class="divider"><span>♡</span></div>
+
+  <section id="modelos" class="section container">
+    <p class="section-label">nossos convites</p>
+    <h2 class="section-title">Escolha o convite ideal para o seu <em>grande dia</em></h2>
+    <p class="section-sub">Do modelo mais direto ao convite em página estendida: tudo pensado para deixar seus convidados bem informados e encantados.</p>
+
+    <div class="convites-grid fade-up">
+      <article class="card">
+        <div class="preview">
+          <span class="badge">modelo prático</span>
+          <span class="badge alt">promoção</span>
+          <img src="assets/convite-interativo-mockup-sem-fundo.png" alt="Convite Interativo">
+        </div>
+        <div class="card-body">
+          <span class="num">01 · compacto e funcional</span>
+          <h3>Convite Interativo</h3>
+          <p class="desc">Ideal para quem quer um convite digital bonito, direto e fácil de enviar, com os principais botões interativos em um só arquivo.</p>
+          <div class="price">
+            <span class="old">de R$ 149,00</span>
+            <span class="new">R$ 97 <small>/ único</small></span>
+          </div>
+          <span class="economia">Você economiza R$ 52</span>
+          <ul class="list">
+            <li><span class="check">✓</span>Foto do casal em destaque</li>
+            <li><span class="check">✓</span>Nomes, data, horário e local personalizados</li>
+            <li><span class="check">✓</span>Paleta de cores ajustada ao estilo do casal</li>
+            <li><span class="check">✓</span>3 botões: Confirmar Presença, Como Chegar e Lista de Presentes</li>
+            <li><span class="check">✓</span>Arquivo pronto para compartilhar pelo WhatsApp</li>
+          </ul>
+          <a href="https://wa.me/5500000000000" class="btn btn-outline">Quero o interativo</a>
+        </div>
+      </article>
+
+      <article class="card featured">
+        <div class="preview">
+          <span class="badge">mais completo</span>
+          <span class="badge alt">melhor escolha</span>
+          <img src="assets/convite-estendido-mockup-sem-fundo.png" alt="Convite Estendido Interativo">
+        </div>
+        <div class="card-body">
+          <span class="num">02 · página estendida</span>
+          <h3>Convite Estendido Interativo</h3>
+          <p class="desc">Funciona como uma página vertical do casamento: mais fotos, mais informações e uma experiência mais completa para os convidados.</p>
+          <div class="price">
+            <span class="old">de R$ 210,00</span>
+            <span class="new">R$ 147 <small>/ único</small></span>
+          </div>
+          <span class="economia">Você economiza R$ 63</span>
+          <ul class="list">
+            <li><span class="check">✓</span>Visual em formato de página estendida, com mais respiro e impacto</li>
+            <li><span class="check">✓</span>Mais fotos do casal para contar a história com elegância</li>
+            <li><span class="check">✓</span>Frase, versículo ou mensagem especial</li>
+            <li><span class="check">✓</span>Até 5 áreas interativas: cerimônia, recepção, presença, presentes e manual dos convidados</li>
+            <li><span class="check">✓</span>Experiência mais premium para impressionar antes do casamento</li>
+          </ul>
+          <a href="https://wa.me/5500000000000" class="btn btn-primary">Quero o estendido</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="features fade-up">
+      <div class="feature"><strong>Personalizado</strong><span>nomes, data, fotos e paleta</span></div>
+      <div class="feature"><strong>Interativo</strong><span>botões clicáveis para convidados</span></div>
+      <div class="feature"><strong>Prático</strong><span>envio fácil pelo WhatsApp</span></div>
+      <div class="feature"><strong>Elegante</strong><span>visual limpo e sofisticado</span></div>
+    </div>
+  </section>
+
+  <div class="divider"><span>♡</span></div>
+
+  <section id="video" class="section container">
+    <p class="section-label">convite em movimento</p>
+    <h2 class="section-title">Veja o Estendido como uma <em>página do casamento</em></h2>
+    <p class="section-sub">O modelo estendido organiza as informações em uma experiência vertical mais completa, elegante e fácil de navegar.</p>
+
+    <div class="video-section fade-up">
+      <div class="video-copy">
+        <h3>Mais do que um convite: uma <em>experiência</em></h3>
+        <p>O convidado recebe tudo em um só lugar: cerimônia, recepção, confirmação de presença, lista de presentes e manual dos convidados.</p>
+        <p>É ideal para casais que querem um convite com aparência premium, mais fotos e mais organização.</p>
+        <a href="https://wa.me/5500000000000" class="btn btn-primary">Quero esse modelo</a>
+      </div>
+      <div class="video-frame">
+        <video src="assets/video-convite-estendido.mp4" controls playsinline muted preload="metadata" poster="assets/convite-estendido-mockup.png"></video>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"><span>♡</span></div>
+
+  <section class="section container">
+    <p class="section-label">compare</p>
+    <h2 class="section-title">Qual convite combina mais com o seu <em>casamento?</em></h2>
+    <p class="section-sub">Os dois modelos são digitais e interativos. A diferença principal está no nível de detalhes e na experiência visual entregue ao convidado.</p>
+
+    <div class="compare fade-up">
+      <table>
+        <thead>
+          <tr>
+            <th>Comparativo</th>
+            <th>Interativo</th>
+            <th>Estendido Interativo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Quantidade de botões</td><td>3 botões de funcionalidades</td><td>5 botões de funcionalidades</td></tr>
+          <tr><td>Botões inclusos</td><td>Confirmar Presença, Como Chegar e Lista de Presentes</td><td>Cerimônia, Recepção, Confirmar Presença, Lista de Presentes e Manual dos Convidados</td></tr>
+          <tr><td>Formato do convite</td><td>Convite digital compacto</td><td>Página vertical estendida</td></tr>
+          <tr><td>Experiência para o convidado</td><td>direta, prática e elegante</td><td>mais completa, organizada e premium</td></tr>
+          <tr><td>Indicado para</td><td>quem quer um convite bonito e objetivo</td><td>quem quer entregar mais informações em uma única página</td></tr>
+          <tr><td>Fotos do casal</td><td>1 foto principal</td><td>mais fotos na composição</td></tr>
+          <tr class="price-row"><td>Investimento promocional</td><td><span class="comp-price">R$ 97</span></td><td><span class="comp-price">R$ 147</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="divider"><span>♡</span></div>
+
+  <section class="section container">
+    <p class="section-label">processo simples</p>
+    <h2 class="section-title">Como funciona</h2>
+    <div class="steps fade-up">
+      <div class="step"><span class="step-num">01</span><h4>Escolha o modelo</h4><p>Interativo ou Estendido, conforme o nível de detalhe que você deseja.</p></div>
+      <div class="step"><span class="step-num">02</span><h4>Envie as informações</h4><p>Fotos, nomes, data, locais, links e detalhes da identidade visual.</p></div>
+      <div class="step"><span class="step-num">03</span><h4>Receba e compartilhe</h4><p>Seu convite pronto para enviar aos convidados pelo WhatsApp.</p></div>
+    </div>
+  </section>
+
+
+  <div class="divider"><span>♡</span></div>
+
+  <section class="section container" id="faq">
+    <p class="section-label">dúvidas frequentes</p>
+    <h2 class="section-title">Perguntas <em>frequentes</em></h2>
+    <p class="section-sub">Separei as principais dúvidas para facilitar a decisão antes de encomendar seu convite.</p>
+
+    <div class="faq-grid fade-up">
+      <div class="faq-item">
+        <h4>Quem envia os links dos botões interativos?</h4>
+        <p>O cliente envia os links. Você pode mandar link de localização, formulário de confirmação, lista de presentes, manual dos convidados ou qualquer link que queira usar no convite.</p>
+      </div>
+      <div class="faq-item">
+        <h4>O convite já vai pronto para enviar?</h4>
+        <p>Sim. Você recebe o arquivo final pronto para compartilhar com os convidados pelo WhatsApp.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Posso personalizar com as cores do casamento?</h4>
+        <p>Sim. O convite pode seguir a identidade do casal, incluindo paleta de cores, estilo visual, nomes, data, horário, fotos e textos.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Qual a diferença do Estendido?</h4>
+        <p>O Estendido funciona como uma página vertical do casamento. Ele comporta mais fotos, mais informações e até 5 botões de funcionalidades, deixando a experiência mais completa.</p>
+      </div>
+<div class="faq-item">
+        <h4>Tem alteração inclusa?</h4>
+        <p>Sim. A página já considera uma rodada de revisão para ajustes simples após a primeira prévia.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container">
+      <h2>Transforme seu convite em uma <em>experiência</em></h2>
+      <p>Mais praticidade para os convidados e mais organização para o seu grande dia.</p>
+      <a href="https://wa.me/5500000000000" class="btn btn-primary">Encomendar pelo WhatsApp</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>planeje o seu sim</span>
+  <p>© 2025 · Convites digitais interativos de casamento</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: .12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
