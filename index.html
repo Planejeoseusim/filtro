@@ -401,20 +401,17 @@
   .video-copy h3 em{ color:var(--terra); font-style:italic; }
   .video-copy p{ color:var(--suave); margin-bottom:1.2rem; }
   .video-frame{
-    background:#111;
-    border-radius:34px;
-    padding:10px;
-    box-shadow:var(--sombra);
     max-width:390px;
     margin-left:auto;
     overflow:hidden;
   }
   .video-frame video{
     width:100%;
-    border-radius:25px;
+    border-radius:0;
     aspect-ratio:9/16;
     object-fit:cover;
-    background:#111;
+    background:#000;
+    display:block;
   }
 
   .features{
@@ -819,6 +816,18 @@
     });
   }, { threshold: .12 });
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+<script>
+(function(){
+  var vid = document.querySelector('.video-frame video');
+  if(!vid) return;
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ vid.play(); } else { vid.pause(); }
+    });
+  }, {threshold: 0.5});
+  obs.observe(vid);
+})();
 </script>
 </body>
 </html>
